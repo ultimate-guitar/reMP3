@@ -13,7 +13,7 @@ import (
 )
 
 type popenInput struct {
-	args []string
+	args    []string
 	stdin   *bytes.Buffer
 	timeout time.Duration
 }
@@ -27,10 +27,10 @@ type popenOutput struct {
 var ffmpegError = fmt.Errorf("ffmpeg command failed")
 
 func resizeMP3(params *requestParams) error {
-	input := popenInput{stdin: bytes.NewBuffer(params.mp3Original), timeout:config.ServerConvertTimeout}
+	input := popenInput{stdin: bytes.NewBuffer(params.mp3Original), timeout: config.ServerConvertTimeout}
 
 	//Set input
-	input.args = []string{"-f", "mp3", "-i", "pipe:",}
+	input.args = []string{"-f", "mp3", "-i", "pipe:"}
 
 	//Bitrate filter
 	input.args = append(input.args, "-b:a", strconv.Itoa(params.reBitrate))

@@ -10,8 +10,8 @@ import (
 )
 
 type Config struct {
-	WebListen string
-	FFmpegBinary string
+	WebListen            string
+	FFmpegBinary         string
 	ServerConvertTimeout time.Duration
 }
 
@@ -45,12 +45,12 @@ func main() {
 	router := getRouter()
 
 	server := &fasthttp.Server{
-		Handler:          router.Handler,
-		DisableKeepalive: true,
+		Handler:            router.Handler,
+		DisableKeepalive:   true,
 		MaxRequestBodySize: serverMaxBodySize,
-		Concurrency:      serverMaxConcurrencyRequests,
-		ReadTimeout:      serverRequestReadTimeout,
-		WriteTimeout:     serverResponseWriteTimeout,
+		Concurrency:        serverMaxConcurrencyRequests,
+		ReadTimeout:        serverRequestReadTimeout,
+		WriteTimeout:       serverResponseWriteTimeout,
 	}
 
 	log.Printf("Server started on %s\n", config.WebListen)

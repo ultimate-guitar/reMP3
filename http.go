@@ -73,8 +73,12 @@ func postResizeHandler(ctx *fasthttp.RequestCtx) {
 }
 
 func getRequestParser(ctx *fasthttp.RequestCtx, params *requestParams) (err error) {
-	params.fileUrl = fasthttp.URI{}
-	params.fileUrl.SetPathBytes(ctx.Path())
+	ctx.URI().CopyTo(&params.fileUrl)
+	// Cleanup file URL from resize args
+	for _, arg := range []string{resizeQArgBitrateName, resizeQArgOutSampleRateName, resizeQArgDurationName} {
+		params.fileUrl.QueryArgs().Del(arg)
+	}
+
 	sourceHeader := string(ctx.Request.Header.Peek(resizeHeaderNameSource))
 	if (sourceHeader == "") && ctx.IsGet() {
 		return fmt.Errorf("empty '%s' header on GET request", resizeHeaderNameSource)
@@ -145,7 +149,7 @@ func postRequestParser(ctx *fasthttp.RequestCtx, params *requestParams) (err err
 	return nil
 }
 
-func getSourceFile(url fasthttp.URI) (data []byte,code int, err error) {
+func getSourceFile(url fasthttp.URI) (data []byte, code int, err error) {
 	res, err := httpClient.Get(url.String())
 	if res != nil {
 		defer res.Body.Close()
