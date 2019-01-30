@@ -30,6 +30,7 @@ const (
 	serverRequestReadTimeout      = 10 * time.Second
 	serverResponseWriteTimeout    = 20 * time.Second
 	serverMaxBodySize             = 100 * 1024 * 1024 //100 Mb
+	httpUserAgent                 = "reMP3 HTTP Fetcher"
 )
 
 var config = Config{}

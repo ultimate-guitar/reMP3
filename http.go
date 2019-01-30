@@ -150,7 +150,14 @@ func postRequestParser(ctx *fasthttp.RequestCtx, params *requestParams) (err err
 }
 
 func getSourceFile(url fasthttp.URI) (data []byte, code int, err error) {
-	res, err := httpClient.Get(url.String())
+	client := new(http.Client)
+	req, err := http.NewRequest("GET", url.String(), nil)
+	if err != nil {
+		return data, fasthttp.StatusInternalServerError, err
+	}
+
+	req.Header.Set("User-Agent", httpUserAgent)
+	res, err := client.Do(req)
 	if res != nil {
 		defer res.Body.Close()
 		defer io.Copy(ioutil.Discard, res.Body)
