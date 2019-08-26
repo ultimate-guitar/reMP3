@@ -68,8 +68,8 @@ func getRouter() *fasthttprouter.Router {
 }
 
 func parseFlags() {
-	flag.StringVar(&config.WebListen, "WEB_LISTEN", "127.0.0.1:7090", "Listen interface and port")
+	flag.StringVar(&config.WebListen, "WEB_LISTEN", ":8080", "Listen interface and port")
 	flag.StringVar(&config.FFmpegBinary, "CFG_FFMPEG_BINARY", "ffmpeg", "Path to ffmpeg binary")
-	flag.DurationVar(&config.ServerConvertTimeout, "CFG_CONVERT_TIMEOUT", 30*time.Second, "Convert timeout.")
+	flag.DurationVar(&config.ServerConvertTimeout, "CFG_CONVERT_TIMEOUT", 60*time.Second, "Convert timeout.")
 	flag.Parse()
 }
